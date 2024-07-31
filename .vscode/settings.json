@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "cjson.h": "c",
+        "microhttpd.h": "c",
+        "string.h": "c",
+        "libpq-fe.h": "c",
+        "db_fun.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c"
+    }
+}

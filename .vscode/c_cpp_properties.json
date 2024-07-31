@@ -5,7 +5,10 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${vcpkgRoot}/x64-windows/include",
-                "${workspaceFolder}/lib/cJSON"
+                "${workspaceFolder}/lib/cJSON",
+                "C:/Program Files/PostgreSQL/16/include",
+                "${workspaceFolder}/lib/libmicrohttpd-1.0.1/src/include",
+                "${workspaceFolder}"
             ],
             "defines": [
                 "_DEBUG",
