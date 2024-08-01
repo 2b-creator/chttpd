@@ -8,18 +8,47 @@
 
 #define PORT 8888
 
-const char* end_points[] = { "/api/user/send" };
+const char *end_points_post[] = {
+    "/api/user/send",
+};
 
-int request_handler(void *cls,
-                    struct MHD_Connection *connection,
-                    const char *url,
-                    const char *method,
-                    const char *version,
-                    const char *upload_data,
-                    size_t *upload_data_size,
-                    void **con_cls)
+const char *end_points_get[] = {
+    "/api/user/get",
+};
+
+static int authenticate_request(struct MHD_Connection *connection)
 {
+    const char *auth_header = MHD_lookup_connection_value(connection, MHD_HEADER_KIND, "Authorization");
+    if (auth(auth_header))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+static int request_handler(void *cls,
+                           struct MHD_Connection *connection,
+                           const char *url,
+                           const char *method,
+                           const char *version,
+                           const char *upload_data,
+                           size_t *upload_data_size,
+                           void **con_cls)
+{
+    
     if (strcmp(method, "POST") == 0)
+    {
+        printf("%s", url);
+        if (strcmp(url, "/api/user/send") == 0)
+        {
+
+            if (authenticate_request(connection))
+            {
+                return MHD_YES;
+            }
+        }
+    }
+    else if (strcmp(method, "GET") == 0)
     {
         return MHD_YES;
     }
@@ -36,12 +65,13 @@ int main()
                               &request_handler, NULL, MHD_OPTION_END);
     if (NULL == daemon)
         return 1;
-    
-    //make_db();
+
+    // make_db();
 
     printf("Server is running on port %d\n", PORT);
     getchar();
-    
+
     MHD_stop_daemon(daemon);
     return 0;
 }
+// ver

@@ -74,9 +74,7 @@ int make_db()
     char *hostaddr = remove_quotes(hostaddr_raw);
 
     int port;
-    printf("%s\n", remove_quotes(toml_raw_in(database, "port")));
     sscanf(remove_quotes(toml_raw_in(database, "port")), "%d", &port);
-    printf("%d\n", port);
     char conn_string[512];
     snprintf(conn_string, sizeof(conn_string), "dbname=%s user=%s password=%s hostaddr=%s port=%d options='--client_encoding=UTF8'", dbname, user, dbpassword, hostaddr, port);
     
