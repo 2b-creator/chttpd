@@ -4,11 +4,10 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${vcpkgRoot}/x64-windows/include",
                 "${workspaceFolder}/lib/cJSON",
                 "C:/Program Files/PostgreSQL/16/include",
-                "${workspaceFolder}/lib/libmicrohttpd-1.0.1/src/include",
-                "${workspaceFolder}"
+                "${workspaceFolder}/lib/VS2022/Debug-dll",
+                "${workspaceFolder}/lib/tomlc99"
             ],
             "defines": [
                 "_DEBUG",

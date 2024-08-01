@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <locale.h>
 #include <cJSON.h>
 #include "db_fun.h"
 
@@ -28,16 +29,20 @@ int request_handler(void *cls,
 
 int main()
 {
-    printf("hello");
+    system("chcp 65001 & cls");
+    printf("你好，世界！\n");
+    setlocale(LC_ALL, "");
     struct MHD_Daemon *daemon;
     daemon = MHD_start_daemon(MHD_USE_INTERNAL_POLLING_THREAD, PORT, NULL, NULL,
                               &request_handler, NULL, MHD_OPTION_END);
     if (NULL == daemon)
         return 1;
+    
+    make_db();
 
     printf("Server is running on port %d\n", PORT);
     getchar();
-    make_db();
+    
     MHD_stop_daemon(daemon);
     return 0;
 }

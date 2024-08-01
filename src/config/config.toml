@@ -1,0 +1,10 @@
+[database]
+server = "127.0.0.1"
+port = 5432
+name = "repo_db"
+user = "repo_admin"
+password = "repo_admin"
+
+[admin]
+username = "root"
+password = "root_repo_account"
