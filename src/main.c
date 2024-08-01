@@ -8,7 +8,7 @@
 
 #define PORT 8888
 
-const char *end_points[] = {"/api/"};
+const char* end_points[] = { "/api/user/send" };
 
 int request_handler(void *cls,
                     struct MHD_Connection *connection,
@@ -30,7 +30,6 @@ int request_handler(void *cls,
 int main()
 {
     system("chcp 65001 & cls");
-    printf("你好，世界！\n");
     setlocale(LC_ALL, "");
     struct MHD_Daemon *daemon;
     daemon = MHD_start_daemon(MHD_USE_INTERNAL_POLLING_THREAD, PORT, NULL, NULL,
@@ -38,7 +37,7 @@ int main()
     if (NULL == daemon)
         return 1;
     
-    make_db();
+    //make_db();
 
     printf("Server is running on port %d\n", PORT);
     getchar();

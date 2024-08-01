@@ -6,6 +6,7 @@
         "libpq-fe.h": "c",
         "db_fun.h": "c",
         "stdlib.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "sha.h": "c"
     }
 }
