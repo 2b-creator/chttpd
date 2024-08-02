@@ -60,14 +60,33 @@ static int request_handler(void *cls,
                 }
                 cJSON *reportTypeRaw = cJSON_GetObjectItem(json, "report_type");
                 int report_type = reportTypeRaw->valueint;
-                cJSON *descriptionRaw = cJSON_GetObjectItemCaseSensitive(json,"description");
+                cJSON *descriptionRaw = cJSON_GetObjectItemCaseSensitive(json, "description");
                 char *description = descriptionRaw->valuestring;
                 const char *auth_header = MHD_lookup_connection_value(connection, MHD_HEADER_KIND, "Authorization");
                 int userid = get_userid(auth_header);
-                char uuid[37];
-                generate_uuid(uuid);
+                if (userid == 0)
+                {
+                    return MHD_NO;
+                }
+                char *respRaw = "null";
+                char uuid_repo[37];
+                generate_uuid(uuid_repo);
+                int isSuccess = rec_send_report(userid, report_type, description, auth_header);
+                if (isSuccess)
+                {
+                    cJSON *resp_data = cJSON_CreateObject();
+                    cJSON_AddNumberToObject(resp_data,"code",200);
+                    cJSON_AddStringToObject(resp_data,"message","report send successfully");
+                    respRaw = cJSON_Print(resp_data);
+                    cJSON_Delete(resp_data);
+                }
+                struct MHD_Response *response = MHD_create_response_from_buffer(strlen(respRaw),(void *)respRaw,MHD_RESPMEM_MUST_COPY);
+                MHD_add_response_header(response, MHD_HTTP_HEADER_CONTENT_TYPE, "application/json");
+                int ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
+                MHD_destroy_response(response);
+                free(respRaw);
                 free(upload_data_copy);
-                return MHD_YES;
+                return ret;
             }
         }
         return MHD_YES;
@@ -90,7 +109,7 @@ int main()
     if (NULL == daemon)
         return 1;
 
-    // make_db();
+    //make_db();
 
     printf("Server is running on port %d\n", PORT);
     getchar();

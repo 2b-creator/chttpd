@@ -3,9 +3,8 @@ $url = "http://127.0.0.1:8888/api/user/send"
 
 # Data to send in the POST request
 $body = @{
-    key1 = "value1"
-    key2 = "value2"
-    key3 = "value3"
+    report_type = 1
+    description = "中文测试"
 }
 
 # Convert the data to JSON format

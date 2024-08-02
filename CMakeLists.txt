@@ -23,7 +23,7 @@ else()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
     add_compile_options(-finput-charset=UTF-8 -fexec-charset=UTF-8)
 endif()
-
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/cJSON)
 include_directories(${PROJECT_SOURCE_DIR}/lib/VS2022/Debug-dll)
 include_directories(${POSTGRESQL_INCLUDE_DIR})
 
@@ -55,6 +55,5 @@ set(SRC_FILES
 )
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
-
-target_link_libraries(${PROJECT_NAME} ${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY})
-target_link_libraries(${PROJECT_NAME} ${POSTGRESQL_LIB} ${PROJECT_SOURCE_DIR}/lib/VS2022/Debug-dll/libmicrohttpd-dll_d.lib ws2_32 wsock32 mswsock toml)
+target_link_libraries(${PROJECT_NAME} ${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY} )
+target_link_libraries(${PROJECT_NAME} ${POSTGRESQL_LIB} ${PROJECT_SOURCE_DIR}/lib/VS2022/Debug-dll/libmicrohttpd-dll_d.lib ws2_32 wsock32 mswsock toml cjson)
