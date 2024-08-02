@@ -35,18 +35,42 @@ static int request_handler(void *cls,
                            size_t *upload_data_size,
                            void **con_cls)
 {
-    
+
     if (strcmp(method, "POST") == 0)
     {
-        printf("%s", url);
-        if (strcmp(url, "/api/user/send") == 0)
+        if (*upload_data_size != 0)
         {
-
-            if (authenticate_request(connection))
+            printf("%s", url);
+            if (strcmp(url, "/api/user/send") == 0)
             {
+                char *upload_data_copy = malloc(*upload_data_size + 1);
+                memcpy(upload_data_copy, upload_data, *upload_data_size);
+                upload_data_copy[*upload_data_size] = '\0';
+                printf("%s\n", upload_data_copy);
+
+                cJSON *json = cJSON_Parse(upload_data_copy);
+                if (json == NULL)
+                {
+                    const char *error_ptr = cJSON_GetErrorPtr();
+                    if (error_ptr != NULL)
+                    {
+                        fprintf(stderr, "Error before: %s\n", error_ptr);
+                    }
+                    return MHD_NO;
+                }
+                cJSON *reportTypeRaw = cJSON_GetObjectItem(json, "report_type");
+                int report_type = reportTypeRaw->valueint;
+                cJSON *descriptionRaw = cJSON_GetObjectItemCaseSensitive(json,"description");
+                char *description = descriptionRaw->valuestring;
+                const char *auth_header = MHD_lookup_connection_value(connection, MHD_HEADER_KIND, "Authorization");
+                int userid = get_userid(auth_header);
+                char uuid[37];
+                generate_uuid(uuid);
+                free(upload_data_copy);
                 return MHD_YES;
             }
         }
+        return MHD_YES;
     }
     else if (strcmp(method, "GET") == 0)
     {

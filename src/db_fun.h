@@ -4,3 +4,4 @@ char random_char();
 void generate_uuid(char *uuid);
 char* remove_quotes(const char *str);
 int auth(const char *token);
+int get_userid(const char *token);

@@ -107,6 +107,7 @@ int make_db()
                                  "ReportType INT REFERENCES ReportTypes(TypeID),\n"
                                  "Description TEXT NOT NULL,\n"
                                  "Status VARCHAR(20) DEFAULT 'Pending',\n"
+                                 "UUID VARCAHR(50) NOT NULL UNIQUE,\n"
                                  "CreatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,\n"
                                  "UpdatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n"
                                  ");";
